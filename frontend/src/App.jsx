@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -55,10 +55,10 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login setUser={setUser} />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/report" element={<Report />} />
-            <Route path="/blacklist" element={<Blacklist />} />
-            <Route path="/track" element={<TrackComplaint />} />
-            <Route path="/dashboard" element={<Dashboard user={user} />} />
+            <Route path="/report" element={user ? <Report /> : <Navigate to="/login" />} />
+            <Route path="/blacklist" element={user ? <Blacklist /> : <Navigate to="/login" />} />
+            <Route path="/track" element={user ? <TrackComplaint /> : <Navigate to="/login" />} />
+            <Route path="/dashboard" element={user ? <Dashboard user={user} /> : <Navigate to="/login" />} />
           </Routes>
         </main>
 

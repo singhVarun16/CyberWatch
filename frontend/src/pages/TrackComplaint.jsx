@@ -7,7 +7,7 @@ function TrackComplaint() {
     fetch("http://localhost:3000/api/complaints")
       .then((res) => res.json())
       .then((data) => {
-        if (Array.isArray(data)) setReports(data);
+        setReports(data);
       })
       .catch(() => {});
   }, []);

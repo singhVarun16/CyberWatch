@@ -17,12 +17,12 @@ function Dashboard({ user }) {
   const fetchData = () => {
     fetch("http://localhost:3000/api/complaints")
       .then((res) => res.json())
-      .then((data) => { if (Array.isArray(data)) setReports(data); })
+      .then((data) => {setReports(data); })
       .catch(() => {});
 
     fetch("http://localhost:3000/api/blacklist")
       .then((res) => res.json())
-      .then((data) => { if (Array.isArray(data)) setBlacklist(data); })
+      .then((data) => {setBlacklist(data); })
       .catch(() => {});
   };
 
@@ -46,8 +46,6 @@ function Dashboard({ user }) {
       scrollWheelZoom: false,
     }).setView([22.5, 82.5], 5);
     mapRef.current = map;
-
-    // 100% Free OpenStreetMap tile server - No API key needed
     window.L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution: "&copy; OpenStreetMap contributors",
       maxZoom: 18,
@@ -200,22 +198,27 @@ function Dashboard({ user }) {
             <tbody>
               {reports.map((r) => (
                 <tr key={r._id}>
-                  <td><b>{r.category}</b></td>
-                  <td>{r.city}</td>
-                  <td>{r.suspectName || r.suspectPhone || r.suspectUpi || "-"}</td>
-                  <td>
-                    <span className={`status-pill ${r.status === "Resolved" ? "status-resolved" : r.status === "Pending" ? "status-pending" : "status-investigation"}`}>
-                      {r.status}
-                    </span>
-                  </td>
-                  <td>
-                    <select className="auto-width select-status" value={r.status} onChange={(e) => updateStatus(r._id, e.target.value)}>
-                      <option>Pending</option>
-                      <option>Under Investigation</option>
-                      <option>Resolved</option>
-                    </select>
-                  </td>
-                </tr>
+              <td><b>{r.category}</b></td>
+              <td>{r.city}</td>
+              <td>
+                <b>{r.suspectName}</b>
+                <br />
+                {r.suspectPhone || r.suspectUpi || r.suspectProfile}
+              </td>
+              <td>
+                <span className={`status-pill ${r.status === "Resolved" ? "status-resolved" : r.status === "Pending" ? "status-pending"   : "status-investigation" }`} >
+                  {r.status}
+                </span>
+              </td>
+              <td>
+                <select className="auto-width select-status" value={r.status} onChange={(e) => updateStatus(r._id, e.target.value)}>
+                  <option>Pending</option>
+                  <option>Under Investigation</option>
+                  <option>Resolved</option>
+                </select>
+              </td>
+            </tr>
+
               ))}
             </tbody>
           </table>

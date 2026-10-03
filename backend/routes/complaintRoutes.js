@@ -128,27 +128,4 @@ router.put("/:id/status", async (req, res) => {
   }
 });
 
-// DELETE COMPLAINT
-router.delete("/:id", async (req, res) => {
-  try {
-    const complaint = await Complaint.findByIdAndDelete(
-      req.params.id
-    );
-
-    if (!complaint) {
-      return res.status(404).json({
-        message: "Complaint not found",
-      });
-    }
-
-    res.status(200).json({
-      message: "Complaint deleted",
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: "Could not delete complaint",
-    });
-  }
-});
-
 export default router;

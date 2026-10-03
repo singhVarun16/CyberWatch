@@ -12,16 +12,10 @@ const PORT = 3000;
 
 const DB_URL = "mongodb://127.0.0.1:27017/cyberwatch";
 
-// =======================
-// Middleware
-// =======================
-
 app.use(cors());
 app.use(express.json());
 
-// =======================
-// MongoDB Connection
-// =======================
+//Connection
 
 mongoose
   .connect(DB_URL)
@@ -32,27 +26,11 @@ mongoose
     console.log("MongoDB connection error:", err);
   });
 
-// =======================
-// HOME ROUTE
-// =======================
-
-app.get("/", (req, res) => {
-  res.send("CyberWatch backend is running!");
-});
-
-// =======================
-// API ROUTES
-// =======================
 
 app.use("/api", authRoutes);
-
 app.use("/api/complaints", complaintRoutes);
-
 app.use("/api/blacklist", blacklistRoutes);
 
-// =======================
-// START SERVER
-// =======================
 
 app.listen(PORT, () => {
   console.log(
